@@ -12,16 +12,24 @@
         <button class="showAllButton">Show All</button>
       </div>
     </div>
-
-    <triviaCards />
+    <div v-for="card in triviaData" :key="card.id">
+      <triviaCards :cardInfo="card" />
+    </div>
   </div>
 </template>
 
 <script>
+import { triviaData } from "./components/trivia.js";
 import triviaCards from "./components/triviaCards.vue";
 
 export default {
   components: { triviaCards },
+
+  data() {
+    return {
+      triviaData: [...triviaData],
+    };
+  },
 };
 </script>
 
