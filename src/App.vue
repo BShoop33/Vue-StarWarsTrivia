@@ -3,8 +3,9 @@
     <div class="header-container">
       <div class="logo-container">
         <img class="triviaLogo" src="StarWarsTrivia.png" alt="starwars logo" />
-        <button class="hideButton">Hide All</button>
+        <button class="hideButton" @click="hideAll">Hide All</button>
       </div>
+
       <div class="difficultyFilterContainer">
         <button class="easyButton">Easy</button>
         <button class="mediumButton">Medium</button>
@@ -12,8 +13,10 @@
         <button class="showAllButton">Show All</button>
       </div>
     </div>
+
+    <!-- Iterates over the triviaData array to create separate cards for each object id in that array -->
     <div v-for="card in triviaData" :key="card.id">
-      <triviaCards :cardInfo="card" />
+      <triviaCards :card="card" @toggle="handleToggle" />
     </div>
   </div>
 </template>
@@ -29,6 +32,15 @@ export default {
     return {
       triviaData: [...triviaData],
     };
+  },
+
+  methods: {
+    handleToggle(card) {
+      card.answerShown = !card.answerShown;
+    },
+    hideAll() {
+      this.triviaData.forEach((card) => (card.answerShown = false));
+    },
   },
 };
 </script>

@@ -1,15 +1,31 @@
 <template>
   <div class="triviaCardsContainer">
-    <div class="triviaCard">
-      {{ cardInfo.question }}
-      <button class="showAnswerButton">Show Answer</button>
+    <div class="triviaCard" :class="{ flipped: card.answerShown }">
+      <div class="question">
+        <h4>{{ card.answerShown == false ? card.question : card.answer }}</h4>
+        <div>
+          <button
+            v-if="card.answerShown == false"
+            class="showAnswerButton"
+            @click="handleClick"
+          >
+            Show Answer
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["cardInfo"],
+  props: ["card"],
+
+  methods: {
+    handleClick() {
+      this.$emit("toggle", this.card);
+    },
+  },
 };
 </script>
 
@@ -41,5 +57,25 @@ export default {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+}
+
+.card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px;
+  margin-top: 20px;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+.flipped .card-inner {
+  transform: rotateY(180deg);
 }
 </style>
