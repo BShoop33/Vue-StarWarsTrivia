@@ -15,8 +15,11 @@
     </div>
 
     <!-- Iterates over the triviaData array to create separate cards for each object id in that array -->
-    <div v-for="card in triviaData" :key="card.id">
-      <triviaCards :card="card" @toggle="handleToggle" />
+
+    <div class="triviaCards">
+      <div v-for="card in triviaData" :key="card.id">
+        <triviaCards :card="card" @toggle="handleToggle" />
+      </div>
     </div>
   </div>
 </template>
@@ -46,8 +49,22 @@ export default {
 </script>
 
 <style>
+.triviaCards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 body {
   background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hdwallpaper.nu%2Fwp-content%2Fuploads%2F2017%2F04%2Fstar_wars-23.jpg&f=1&nofb=1");
+}
+
+.cardsContainer {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .difficultyFilterContainer {
@@ -123,7 +140,7 @@ body {
   font-size: 16pt;
   background-color: #ffde06;
   border: 5px;
-  border-color: #4cade6;
+  border-color: red;
   border-style: solid;
 }
 

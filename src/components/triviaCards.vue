@@ -44,19 +44,17 @@ export default {
   border-style: solid;
   border-color: green;
   background-color: #ffde06;
-  margin: 2em;
   font-size: 16pt;
   padding: 0.4em;
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
+  margin: 2em;
   overflow: auto;
 }
 
 .triviaCardsContainer {
   display: flex;
-  justify-content: space-around;
+  flex-flow: row;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .card {
