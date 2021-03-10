@@ -7,17 +7,48 @@
       </div>
 
       <div class="difficultyFilterContainer">
-        <button class="easyButton">Easy</button>
-        <button class="mediumButton">Medium</button>
-        <button class="hardButton">Hard</button>
-        <button class="showAllButton">Show All</button>
+        <button
+          class="easyButton"
+          @click="
+            hideAll();
+            easyDifficulty();
+          "
+        >
+          Easy
+        </button>
+        <button
+          class="mediumButton"
+          @click="
+            hideAll();
+            mediumDifficulty();
+          "
+        >
+          Medium
+        </button>
+        <button
+          class="hardButton"
+          @click="
+            hideAll();
+            hardDifficulty();
+          "
+        >
+          Hard
+        </button>
+        <button
+          class="showAllButton"
+          @click="
+            hideAll();
+            showAll();
+          "
+        >
+          Show All
+        </button>
       </div>
     </div>
 
     <!-- Iterates over the triviaData array to create separate cards for each object id in that array -->
-
     <div class="triviaCards">
-      <div v-for="card in triviaData" :key="card.id">
+      <div v-for="card in displayedTrivia" :key="card.id">
         <triviaCards :card="card" @toggle="handleToggle" />
       </div>
     </div>
@@ -33,29 +64,60 @@ export default {
 
   data() {
     return {
+      //creates a copy of the triviaData imported from trivia.js
       triviaData: [...triviaData],
+      //initializes the difficulty variable with a blank value.
+      difficulty: "",
     };
   },
 
   methods: {
+    /*when invoked, switches the value of card.AnswerShown from true to false or false to true
+    depending on the card.AnswerShown initial value.*/
     handleToggle(card) {
       card.answerShown = !card.answerShown;
     },
+    /*when invoked, switches the value of card.AnswerShown from true to false or false to true
+    depending on the card.AnswerShown initial value.*/
     hideAll() {
       this.triviaData.forEach((card) => (card.answerShown = false));
+    },
+    //changes state of the difficulty value to easy.
+    easyDifficulty() {
+      this.difficulty = "easy";
+    },
+    //changes state of the difficulty value to medium.
+    mediumDifficulty() {
+      this.difficulty = "medium";
+    },
+    //changes state of the difficulty value to hard.
+    hardDifficulty() {
+      this.difficulty = "hard";
+    },
+    //changes state of the difficulty value to blank.
+    showAll() {
+      this.difficulty = "";
+    },
+  },
+
+  computed: {
+    /*performs the card difficulty level evalutation. If no difficulty level is selected or if
+    the Show All button is clicked, the difficulty filter is blank so all cards are rendered. If
+    any difficulty button is clicked, only cards with that difficulty value are rendered.*/
+    displayedTrivia() {
+      if (this.difficulty === "") {
+        return this.triviaData;
+      } else {
+        return this.triviaData.filter(
+          (card) => card.difficulty === this.difficulty
+        );
+      }
     },
   },
 };
 </script>
 
 <style>
-.triviaCards {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
 body {
   background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hdwallpaper.nu%2Fwp-content%2Fuploads%2F2017%2F04%2Fstar_wars-23.jpg&f=1&nofb=1");
 }
@@ -73,51 +135,27 @@ body {
 }
 
 .easyButton {
-  margin-left: 1em;
-  margin-top: 0.5em;
-  width: 6em;
-  height: 4em;
-  font-size: 16pt;
   background-color: #ffde06;
   border: 5px;
   border-color: #4cade6;
   border-style: solid;
-}
-
-.mediumButton {
+  font-size: 16pt;
+  height: 4em;
   margin-left: 1em;
   margin-top: 0.5em;
   width: 6em;
-  height: 4em;
-  font-size: 16pt;
-  background-color: #ffde06;
-  border: 5px;
-  border-color: #4cade6;
-  border-style: solid;
 }
 
 .hardButton {
-  margin-left: 1em;
-  margin-top: 0.5em;
-  width: 6em;
-  height: 4em;
-  font-size: 16pt;
   background-color: #ffde06;
   border: 5px;
   border-color: #4cade6;
   border-style: solid;
-}
-
-.showAllButton {
+  font-size: 16pt;
+  height: 4em;
   margin-left: 1em;
   margin-top: 0.5em;
   width: 6em;
-  height: 4em;
-  font-size: 16pt;
-  background-color: #ffde06;
-  border: 5px;
-  border-color: #4cade6;
-  border-style: solid;
 }
 
 .header-container {
@@ -125,27 +163,58 @@ body {
   justify-content: center;
 }
 
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
-}
-
 .hideButton {
-  width: 8em;
   align-self: center;
-  margin-left: 21.5em;
-  height: 3em;
-  font-size: 16pt;
   background-color: #ffde06;
   border: 5px;
   border-color: red;
   border-style: solid;
+  font-size: 16pt;
+  height: 3em;
+  margin-left: 21.5em;
+  width: 8em;
+}
+
+.logo-container {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.mediumButton {
+  background-color: #ffde06;
+  border: 5px;
+  border-color: #4cade6;
+  border-style: solid;
+  font-size: 16pt;
+  height: 4em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+  width: 6em;
+}
+
+.showAllButton {
+  background-color: #ffde06;
+  border: 5px;
+  border-color: #4cade6;
+  border-style: solid;
+  font-size: 16pt;
+  height: 4em;
+  margin-left: 1em;
+  margin-top: 0.5em;
+  width: 6em;
+}
+
+.triviaCards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .triviaLogo {
-  width: 35em;
   margin-left: 30em;
+  width: 35em;
 }
 </style>
