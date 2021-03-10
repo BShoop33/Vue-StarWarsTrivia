@@ -1,8 +1,8 @@
 <template>
   <div class="triviaCardsContainer">
-    <div class="triviaCard" :class="{ flipped: card.answerShown }">
+    <div class="triviaCard">
       <div class="question">
-        <h4>{{ card.answerShown == false ? card.question : card.answer }}</h4>
+        <h4>{{ question }}</h4>
         <div>
           <button
             v-if="card.answerShown == false"
@@ -11,7 +11,9 @@
           >
             Show Answer
           </button>
-          <div class="difficulty">Difficulty: {{ card.difficulty }}</div>
+          <div class="difficulty">
+            {{ difficulty }}
+          </div>
         </div>
       </div>
     </div>
@@ -27,29 +29,67 @@ export default {
       this.$emit("toggle", this.card);
     },
   },
+
+  computed: {
+    question() {
+      return this.card.answerShown == false
+        ? this.card.question
+        : this.card.answer;
+    },
+    difficulty() {
+      return this.card.difficulty.toUpperCase();
+    },
+  },
 };
 </script>
 
 <style scoped>
+.card {
+  background-color: transparent;
+  border: 1px solid #f1f1f1;
+  height: 200px;
+  margin-top: 20px;
+  perspective: 1000px;
+  width: 300px;
+}
+
+.card-inner {
+  height: 100%;
+  position: relative;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  width: 100%;
+}
+
+.difficulty {
+  font-weight: 800;
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
 .showAnswerButton {
+  background-color: rgb(55, 243, 218);
   font-size: 18pt;
   margin-left: 1.25em;
   width: 8em;
-  background-color: rgb(55, 243, 218);
 }
 
 .triviaCard {
-  width: 12em;
-  height: 9em;
-  border: 5px;
-  border-style: solid;
-  border-color: green;
   background-color: #ffde06;
+  border: 5px;
+  border-color: green;
+  border-style: solid;
   font-size: 16pt;
-  padding: 0.4em;
+  height: 11em;
   margin: 2em;
   overflow: auto;
-  height: 11em;
+  padding: 0.4em;
+  width: 12em;
 }
 
 .triviaCardsContainer {
@@ -57,32 +97,5 @@ export default {
   flex-flow: row;
   flex-wrap: wrap;
   justify-content: space-around;
-}
-
-.card {
-  background-color: transparent;
-  width: 300px;
-  height: 200px;
-  border: 1px solid #f1f1f1;
-  perspective: 1000px;
-  margin-top: 20px;
-}
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.difficulty {
-  text-align: center;
-  margin-top: 0.5em;
-  font-weight: 800;
-}
-
-.flipped .card-inner {
-  transform: rotateY(180deg);
 }
 </style>
