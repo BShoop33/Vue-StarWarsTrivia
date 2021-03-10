@@ -7,17 +7,48 @@
       </div>
 
       <div class="difficultyFilterContainer">
-        <button class="easyButton">Easy</button>
-        <button class="mediumButton">Medium</button>
-        <button class="hardButton">Hard</button>
-        <button class="showAllButton">Show All</button>
+        <button
+          class="easyButton"
+          @click="
+            hideAll();
+            easyDifficulty();
+          "
+        >
+          Easy
+        </button>
+        <button
+          class="mediumButton"
+          @click="
+            hideAll();
+            mediumDifficulty();
+          "
+        >
+          Medium
+        </button>
+        <button
+          class="hardButton"
+          @click="
+            hideAll();
+            hardDifficulty();
+          "
+        >
+          Hard
+        </button>
+        <button
+          class="showAllButton"
+          @click="
+            hideAll();
+            showAll();
+          "
+        >
+          Show All
+        </button>
       </div>
     </div>
 
     <!-- Iterates over the triviaData array to create separate cards for each object id in that array -->
-
     <div class="triviaCards">
-      <div v-for="card in triviaData" :key="card.id">
+      <div v-for="card in displayedTrivia" :key="card.id">
         <triviaCards :card="card" @toggle="handleToggle" />
       </div>
     </div>
@@ -34,6 +65,7 @@ export default {
   data() {
     return {
       triviaData: [...triviaData],
+      difficulty: "",
     };
   },
 
@@ -43,6 +75,30 @@ export default {
     },
     hideAll() {
       this.triviaData.forEach((card) => (card.answerShown = false));
+    },
+    easyDifficulty() {
+      this.difficulty = "easy";
+    },
+    mediumDifficulty() {
+      this.difficulty = "medium";
+    },
+    hardDifficulty() {
+      this.difficulty = "hard";
+    },
+    showAll() {
+      this.difficulty = "";
+    },
+  },
+
+  computed: {
+    displayedTrivia() {
+      if (this.difficulty === "") {
+        return this.triviaData;
+      } else {
+        return this.triviaData.filter(
+          (card) => card.difficulty === this.difficulty
+        );
+      }
     },
   },
 };

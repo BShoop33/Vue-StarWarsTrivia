@@ -11,6 +11,7 @@
           >
             Show Answer
           </button>
+          <div class="difficulty">Difficulty: {{ card.difficulty }}</div>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@ export default {
 
 .triviaCard {
   width: 12em;
-  height: 8em;
+  height: 9em;
   border: 5px;
   border-style: solid;
   border-color: green;
@@ -48,6 +49,7 @@ export default {
   padding: 0.4em;
   margin: 2em;
   overflow: auto;
+  height: 11em;
 }
 
 .triviaCardsContainer {
@@ -73,6 +75,13 @@ export default {
   transition: transform 0.8s;
   transform-style: preserve-3d;
 }
+
+.difficulty {
+  text-align: center;
+  margin-top: 0.5em;
+  font-weight: 800;
+}
+
 .flipped .card-inner {
   transform: rotateY(180deg);
 }
